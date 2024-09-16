@@ -7,19 +7,31 @@ using namespace std;
 // `pos` specifies the index to sort by if sorting a vector of pairs.
 template <typename T>
 void stableSelectionSort(vector<T>& a) {
-    
+    int n = a.size();
+        for (int i = 0; i < n-1; i++) {
+            int min = i;
+            for (int j = i+1; j < n; j++) {
+                if (a[min] < a[j]) min = j;
+            }
+            // std::swap(a[i], a[min]);
+            T val = a[min];
+            for (int x = min; x>i; x--)
+                a[x]=a[x-1];
+            a[i]=val;
+        }
 }
+
 
 // Unstable Selection Sort given in slides
 template <typename T>
-void selectionSort(vector<T>& a) {
+void selectionSort(vector<T>& a                                                                         ) {
      int n = a.size();
         for (int i = 0; i < n; i++) {
             int min = i;
             for (int j = i+1; j < n; j++) {
                 if (a[j] < a[min]) min = j;
             }
-            std::swap(a[i], a[min]);
+            // std::swap(a[i], a[min]);
         }
 }
 int main() {
@@ -33,11 +45,18 @@ int main() {
     }
     cout << endl;
 
-    // Sort by the second element of the pairs
-    selectionSort(arr);
+    // // Sort by the second element of the pairs
+    // selectionSort(arr);
 
-    // Print sorted array
-    cout << "Sorted array by the first element:" << endl;
+    // // Print sorted array
+    // cout << "Sorted array by the first element:" << endl;
+    // for (const auto& p : arr) {
+    //     cout << "(" << p.first << ", " << p.second << ") ";
+    // }
+    // cout << endl;
+
+    stableSelectionSort(arr);
+    cout << "Stable Sorted array by the first element:" << endl;
     for (const auto& p : arr) {
         cout << "(" << p.first << ", " << p.second << ") ";
     }
